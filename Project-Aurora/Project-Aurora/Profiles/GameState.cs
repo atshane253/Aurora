@@ -264,13 +264,38 @@ namespace Aurora.Profiles
         /// Gets whether the default microphone is muted.
         /// </summary>
         public bool MicrophoneIsMuted => DefaultAudioInDevice?.AudioEndpointVolume.Mute ?? true;
-
+        
         private static PerformanceCounter _CPUCounter;
-
+        private static PerformanceCounter _CPUCounter0;
+        private static PerformanceCounter _CPUCounter1;
+        private static PerformanceCounter _CPUCounter2;
+        private static PerformanceCounter _CPUCounter3;
+        private static PerformanceCounter _CPUCounter4;
+        private static PerformanceCounter _CPUCounter5;
+        private static PerformanceCounter _CPUCounter6;
+        private static PerformanceCounter _CPUCounter7;
+        private static PerformanceCounter _CPUCounter8;
+        private static PerformanceCounter _CPUCounter9;
+        private static PerformanceCounter _CPUCounter10;
+        private static PerformanceCounter _CPUCounter11;
+        
         private static float _CPUUsage = 0.0f;
+        private static float _CPUUsage0 = 0.0f;
+        private static float _CPUUsage1 = 0.0f;
+        private static float _CPUUsage2 = 0.0f;
+        private static float _CPUUsage3 = 0.0f;
+        private static float _CPUUsage4 = 0.0f;
+        private static float _CPUUsage5 = 0.0f;
+        private static float _CPUUsage6 = 0.0f;
+        private static float _CPUUsage7 = 0.0f;
+        private static float _CPUUsage8 = 0.0f;
+        private static float _CPUUsage9 = 0.0f;
+        private static float _CPUUsage10 = 0.0f;
+        private static float _CPUUsage11 = 0.0f;
         private static float _SmoothCPUUsage = 0.0f;
 
         private static System.Timers.Timer cpuCounterTimer;
+        private static System.Timers.Timer cpuCoreTimer;
 
         private static MMDeviceEnumerator mmDeviceEnumerator = new MMDeviceEnumerator();
         private static NAudio.Wave.WaveInEvent waveInEvent = new NAudio.Wave.WaveInEvent();
@@ -297,11 +322,36 @@ namespace Aurora.Profiles
                 return _SmoothCPUUsage;
             }
         }
+        
+        public float CPUUsage0 => _CPUUsage0;
+        public float CPUUsage1 => _CPUUsage1;
+        public float CPUUsage2 => _CPUUsage2;
+        public float CPUUsage3 => _CPUUsage3;
+        public float CPUUsage4 => _CPUUsage4;
+        public float CPUUsage5 => _CPUUsage5;
+        public float CPUUsage6 => _CPUUsage6;
+        public float CPUUsage7 => _CPUUsage7;
+        public float CPUUsage8 => _CPUUsage8;
+        public float CPUUsage9 => _CPUUsage9;
+        public float CPUUsage10 => _CPUUsage10;
+        public float CPUUsage11 => _CPUUsage11;
 
         static LocalPCInformation() {
             try
-            {
+            {                
                 _CPUCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+                _CPUCounter0 = new PerformanceCounter("Processor", "% Processor Time", "0");
+                _CPUCounter1 = new PerformanceCounter("Processor", "% Processor Time", "1");
+                _CPUCounter2 = new PerformanceCounter("Processor", "% Processor Time", "2");
+                _CPUCounter3 = new PerformanceCounter("Processor", "% Processor Time", "3");
+                _CPUCounter4 = new PerformanceCounter("Processor", "% Processor Time", "4");
+                _CPUCounter5 = new PerformanceCounter("Processor", "% Processor Time", "5");
+                _CPUCounter6 = new PerformanceCounter("Processor", "% Processor Time", "6");
+                _CPUCounter7 = new PerformanceCounter("Processor", "% Processor Time", "7");
+                _CPUCounter8 = new PerformanceCounter("Processor", "% Processor Time", "8");
+                _CPUCounter9 = new PerformanceCounter("Processor", "% Processor Time", "9");
+                _CPUCounter10 = new PerformanceCounter("Processor", "% Processor Time", "10");
+                _CPUCounter11 = new PerformanceCounter("Processor", "% Processor Time", "11");
             }
             catch(Exception exc)
             {
@@ -334,6 +384,13 @@ namespace Aurora.Profiles
                 cpuCounterTimer.Elapsed += CpuCounterTimer_Elapsed;
                 cpuCounterTimer.Start();
             }
+
+            if (cpuCoreTimer == null)
+            {
+                cpuCoreTimer = new System.Timers.Timer(100);
+                cpuCoreTimer.Elapsed += cpuCoreTimer_Elapsed;
+                cpuCoreTimer.Start();
+            }
         }
 
         private void CpuCounterTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -341,6 +398,42 @@ namespace Aurora.Profiles
             try
             {
                 _CPUUsage = (_CPUUsage + _CPUCounter.NextValue()) / 2.0f;
+            }
+            catch (Exception exc)
+            {
+                Global.logger.Error("PerformanceCounter exception: " + exc);
+            }
+        }
+
+        private void cpuCoreTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+
+                float next0 = _CPUCounter0.NextValue();
+                float next1 = _CPUCounter1.NextValue();
+                float next2 = _CPUCounter2.NextValue();
+                float next3 = _CPUCounter3.NextValue();
+                float next4 = _CPUCounter4.NextValue();
+                float next5 = _CPUCounter5.NextValue();
+                float next6 = _CPUCounter6.NextValue();
+                float next7 = _CPUCounter7.NextValue();
+                float next8 = _CPUCounter8.NextValue();
+                float next9 = _CPUCounter9.NextValue();
+                float next10 = _CPUCounter10.NextValue();
+                float next11 = _CPUCounter11.NextValue();
+                _CPUUsage0 = (_CPUUsage0 + next0) / 2.0f;
+                _CPUUsage1 = (_CPUUsage1 + next1) / 2.0f;
+                _CPUUsage2 = (_CPUUsage2 + next2) / 2.0f;
+                _CPUUsage3 = (_CPUUsage3 + next3) / 2.0f;
+                _CPUUsage4 = (_CPUUsage4 + next4) / 2.0f;
+                _CPUUsage5 = (_CPUUsage5 + next5) / 2.0f;
+                _CPUUsage6 = (_CPUUsage6 + next6) / 2.0f;
+                _CPUUsage7 = (_CPUUsage7 + next7) / 2.0f;
+                _CPUUsage8 = (_CPUUsage8 + next8) / 2.0f;
+                _CPUUsage9 = (_CPUUsage9 + next9) / 2.0f;
+                _CPUUsage10 = (_CPUUsage10 + next10) / 2.0f;
+                _CPUUsage11 = (_CPUUsage11 + next11) / 2.0f;
             }
             catch (Exception exc)
             {
